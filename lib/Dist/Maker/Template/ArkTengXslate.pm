@@ -63,19 +63,20 @@ use Ark::Models '-base';
 1;
 
 @@ lib/<: $dist.path :>/Model/.gitkeep
-
+ 
 @@ lib/<: $dist.path :>/Controller/.gitkeep
-
+ 
 @@ lib/<: $dist.path :>/DB/.gitkeep
-
+ 
 @@ lib/<: $dist.path :>/DB/Row/.gitkeep
-
+ 
 @@ lib/<: $dist.path :>/DB/ResultSet/.gitkeep
-
+gitkeep
+ 
 @@ lib/<: $dist.path :>/View/.gitkeep
-
+ 
 @@ t/.gitkeep
-
+ 
 @@ README.md
 
 # Dist::Maker::Template::ArkTengXslate
