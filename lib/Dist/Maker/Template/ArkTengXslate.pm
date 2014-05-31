@@ -1,10 +1,48 @@
 package Dist::Maker::Template::ArkTengXslate;
-use 5.008_001;
+
+use 5.016;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+use Mouse;
+use MouseX::StrictConstructor;
 
+extends 'Dist::Maker::Base';
+with    'Dist::Maker::Template';
+
+sub dist_init {
+}
+
+sub distribution {
+
+    return <<'DIST';
+
+@@.gitignore
+/carton.lock
+/local/
+/.carton/
+
+*.swp
+*.DS_Store
+
+@@cpanfile
+requires 'Ark', '1.20';
+
+@@ README.md
+
+# Dist::Maker::Template::ArkTengXslate
+
+## Install
+
+``````
+$ cpanm Dist::Maker::Template::ArkTengXslate
+``````
+
+```
+$ dim init MyApp ArkTengXslate
+```
+DIST
+}
 
 1;
 __END__
