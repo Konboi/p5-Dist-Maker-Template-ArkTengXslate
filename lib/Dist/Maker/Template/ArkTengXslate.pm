@@ -30,7 +30,7 @@ sub distribution {
 
 @@cpanfile
 requires 'Ark', '1.20';
-requires 'Teng';
+requires 'Teng';3
 
 @@ lib/<: $dist.path :>.pm
 package <: $dist.module :>;
@@ -58,7 +58,7 @@ our $VERSION = '0.01';
 </html>
 
 @@ lib/<: $dist.path :>/Models.pm
-package <: $dist.module :>::Models
+package <: $dist.module :>::Models;
 use strict;
 use warnings;
 use Ark::Models '-base';
