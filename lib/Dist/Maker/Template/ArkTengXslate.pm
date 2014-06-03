@@ -18,6 +18,9 @@ sub distribution {
     return <<'DIST';
 
 @@.gitignore
+.*
+!.gitkeep
+!.gitignore
 /carton.lock
 /local/
 /.carton/
@@ -28,6 +31,52 @@ sub distribution {
 @@cpanfile
 requires 'Ark', '1.20';
 
+@@ lib/<: $dist.path :>.pm
+package <: $dist.module :>;
+
+use Ark;
+use_model <: $dist.module :>::Models';
+our $VERSION = '0.01';
+
+1;
+
+@@ root/content/index.tx
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+
+<body>
+<h1><: $title :></h1>
+
+</body>
+</html>
+
+@@ lib/<: $dist.path :>/Models.pm
+package <: $dist.module :>::Models
+use Ark::Models '-base';
+
+1;
+
+@@ lib/<: $dist.path :>/Model/.gitkeep
+ 
+@@ lib/<: $dist.path :>/Controller/.gitkeep
+ 
+@@ lib/<: $dist.path :>/DB/.gitkeep
+ 
+@@ lib/<: $dist.path :>/DB/Row/.gitkeep
+ 
+@@ lib/<: $dist.path :>/DB/ResultSet/.gitkeep
+gitkeep
+ 
+@@ lib/<: $dist.path :>/View/.gitkeep
+ 
+@@ t/.gitkeep
+ 
 @@ README.md
 
 # Dist::Maker::Template::ArkTengXslate
