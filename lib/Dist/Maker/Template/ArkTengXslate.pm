@@ -115,7 +115,20 @@ autoloader qr/^DB::/ => sub {
 gitkeep
  
 @@ lib/<: $dist.path :>/View/.gitkeep
- 
+
+@@ lib/<: $dist.path :>/View/JSON.pm
+
+package <: $dist.module :>::View::JSON;
+use Ark 'View::JSON';
+
+use JSON::XS;
+
+has '+expose_stash' => default => 'json';
+has '+json_driver'  => default => sub { JSON::XS->new };
+
+__PACKAGE__->meta->make_immutable;
+
+
 @@ t/.gitkeep
  
 @@ README.md
