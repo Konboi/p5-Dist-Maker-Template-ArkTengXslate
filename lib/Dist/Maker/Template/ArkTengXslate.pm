@@ -30,6 +30,7 @@ sub distribution {
 
 @@cpanfile
 requires 'Ark', '1.20';
+requires 'Teng';3
 
 @@ lib/<: $dist.path :>.pm
 package <: $dist.module :>;
@@ -57,8 +58,48 @@ our $VERSION = '0.01';
 </html>
 
 @@ lib/<: $dist.path :>/Models.pm
-package <: $dist.module :>::Models
+package <: $dist.module :>::Models;
+use strict;
+use warnings;
 use Ark::Models '-base';
+use Teng::Schema::Loader;
+use String::CamelCase 'camelize';
+
+use constant PROJECT_NAME => (split /::/, __PACKAGE__)[0];
+
+register DB => sub {
+    my $self = shift;
+    my $cls = PROJECT_NAME."::DB";
+
+    my $conf;
+
+    $conf = $self->get('conf')->{database}{master}
+        or die 'Require database config';
+
+    $self->adaptor({
+        class       => $cls,
+        constructor => 'load',
+        args        => {
+            connect_info  => $conf,
+        }
+    });
+};
+
+autoloader qr/^DB::/ => sub {
+    my ($self, $name) = @_;
+
+    my $db = $self->get('DB');
+    my $schema = $db->schema;
+
+    for my $table (keys %{$schema->tables}) {
+        my $kls = camelize $table;
+        register "DB::${kls}" => sub {
+            my $rs = $db->rs($table);
+            $rs->{sth} = undef;
+            $rs;
+        };
+    }
+};
 
 1;
 
