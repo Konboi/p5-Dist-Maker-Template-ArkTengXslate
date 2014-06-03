@@ -30,7 +30,8 @@ sub distribution {
 
 @@cpanfile
 requires 'Ark', '1.20';
-requires 'Teng';3
+requires 'Teng';
+requires 'JSON::XS';
 
 @@ lib/<: $dist.path :>.pm
 package <: $dist.module :>;
