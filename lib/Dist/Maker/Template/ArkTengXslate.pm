@@ -129,6 +129,26 @@ has '+json_driver'  => default => sub { JSON::XS->new };
 
 __PACKAGE__->meta->make_immutable;
 
+@@ lib/<: $dist.path :>/View/Xslate.pm
+
+package <: $dist.module :>::View::Xslate;
+use utf8;
+use Ark 'View::Xslate';
+use <: $dist.module :>::View::Xslate::ContextFunctions;
+
+sub BUILD {
+    my $self = shift;
+
+    my $function = <: $dist.module :>::View::Xslate::ContextFunctions->context_functions(sub {$self->context});
+
+     $self->options({
+         cache     => 1,
+         function  => $function,
+         module    => ['Text::Xslate::Bridge::Star'],
+     });
+}
+
+1;
 
 @@ t/.gitkeep
  
