@@ -107,7 +107,37 @@ autoloader qr/^DB::/ => sub {
 @@ lib/<: $dist.path :>/Model/.gitkeep
  
 @@ lib/<: $dist.path :>/Controller/.gitkeep
- 
+
+@@ lib/<: $dist.path :>/Controller.pm
+
+package <: $dist.module :>/Controller;
+use Ark 'Controller';
+
+sub error_404 :path :Args {
+    my ($self, $c) = @_;
+    $c->res->status(404);
+    $c->res->body('404 Not Found');
+}
+
+sub index :Path {
+    my ($self, $c) = @_;
+    $c->stash->{title} = 'Ark Default Index by Xslate';
+}
+
+sub end :Private {
+    my ($self, $c) = @_;
+
+    unless ($c->res->body || ($c->res->status == 302)) {
+        $c->forward($c->view('Xslate'));
+    }
+
+    unless ($c->res->content_type()) {
+        $c->res->header('content-type' => 'text/html')
+    }
+}
+
+__PACKAGE__->meta->make_immutable;
+
 @@ lib/<: $dist.path :>/DB/.gitkeep
  
 @@ lib/<: $dist.path :>/DB/Row/.gitkeep
