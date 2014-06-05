@@ -30,7 +30,8 @@ sub distribution {
 
 @@cpanfile
 requires 'Ark', '1.20';
-requires 'Teng';3
+requires 'Teng';
+requires 'JSON::XS';
 
 @@ lib/<: $dist.path :>.pm
 package <: $dist.module :>;
@@ -112,10 +113,43 @@ autoloader qr/^DB::/ => sub {
 @@ lib/<: $dist.path :>/DB/Row/.gitkeep
  
 @@ lib/<: $dist.path :>/DB/ResultSet/.gitkeep
-gitkeep
+ 
  
 @@ lib/<: $dist.path :>/View/.gitkeep
- 
+
+@@ lib/<: $dist.path :>/View/JSON.pm
+
+package <: $dist.module :>::View::JSON;
+use Ark 'View::JSON';
+
+use JSON::XS;
+
+has '+expose_stash' => default => 'json';
+has '+json_driver'  => default => sub { JSON::XS->new };
+
+__PACKAGE__->meta->make_immutable;
+
+@@ lib/<: $dist.path :>/View/Xslate.pm
+
+package <: $dist.module :>::View::Xslate;
+use utf8;
+use Ark 'View::Xslate';
+use <: $dist.module :>::View::Xslate::ContextFunctions;
+
+sub BUILD {
+    my $self = shift;
+
+    my $function = <: $dist.module :>::View::Xslate::ContextFunctions->context_functions(sub {$self->context});
+
+     $self->options({
+         cache     => 1,
+         function  => $function,
+         module    => ['Text::Xslate::Bridge::Star'],
+     });
+}
+
+1;
+
 @@ t/.gitkeep
  
 @@ README.md
