@@ -30,7 +30,8 @@ sub distribution {
 
 @@cpanfile
 requires 'Ark', '1.20';
-requires 'Teng';3
+requires 'Teng';
+requires 'JSON::XS';
 
 @@ lib/<: $dist.path :>.pm
 package <: $dist.module :>;
@@ -106,16 +107,79 @@ autoloader qr/^DB::/ => sub {
 @@ lib/<: $dist.path :>/Model/.gitkeep
  
 @@ lib/<: $dist.path :>/Controller/.gitkeep
- 
+
+@@ lib/<: $dist.path :>/Controller.pm
+
+package <: $dist.module :>/Controller;
+use Ark 'Controller';
+
+sub error_404 :path :Args {
+    my ($self, $c) = @_;
+    $c->res->status(404);
+    $c->res->body('404 Not Found');
+}
+
+sub index :Path {
+    my ($self, $c) = @_;
+    $c->stash->{title} = 'Ark Default Index by Xslate';
+}
+
+sub end :Private {
+    my ($self, $c) = @_;
+
+    unless ($c->res->body || ($c->res->status == 302)) {
+        $c->forward($c->view('Xslate'));
+    }
+
+    unless ($c->res->content_type()) {
+        $c->res->header('content-type' => 'text/html')
+    }
+}
+
+__PACKAGE__->meta->make_immutable;
+
 @@ lib/<: $dist.path :>/DB/.gitkeep
  
 @@ lib/<: $dist.path :>/DB/Row/.gitkeep
  
 @@ lib/<: $dist.path :>/DB/ResultSet/.gitkeep
-gitkeep
+ 
  
 @@ lib/<: $dist.path :>/View/.gitkeep
- 
+
+@@ lib/<: $dist.path :>/View/JSON.pm
+
+package <: $dist.module :>::View::JSON;
+use Ark 'View::JSON';
+
+use JSON::XS;
+
+has '+expose_stash' => default => 'json';
+has '+json_driver'  => default => sub { JSON::XS->new };
+
+__PACKAGE__->meta->make_immutable;
+
+@@ lib/<: $dist.path :>/View/Xslate.pm
+
+package <: $dist.module :>::View::Xslate;
+use utf8;
+use Ark 'View::Xslate';
+use <: $dist.module :>::View::Xslate::ContextFunctions;
+
+sub BUILD {
+    my $self = shift;
+
+    my $function = <: $dist.module :>::View::Xslate::ContextFunctions->context_functions(sub {$self->context});
+
+     $self->options({
+         cache     => 1,
+         function  => $function,
+         module    => ['Text::Xslate::Bridge::Star'],
+     });
+}
+
+1;
+
 @@ t/.gitkeep
  
 @@ README.md
