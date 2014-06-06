@@ -138,6 +138,22 @@ sub end :Private {
 
 __PACKAGE__->meta->make_immutable;
 
+@@ lib/<: $dist.path :>/DB.pm
+
+package <:$dist.module>::DB;
+
+use strict;
+use warnings;
+use utf8;
+
+use parent 'Teng';
+
+__PACKAGE__->load_plugin('Pager::MySQLFoundRows');
+__PACKAGE__->load_plugin('Count');
+__PACKAGE__->load_plugin('FindOrCreate');
+
+1;
+
 @@ lib/<: $dist.path :>/DB/.gitkeep
  
 @@ lib/<: $dist.path :>/DB/Row/.gitkeep
