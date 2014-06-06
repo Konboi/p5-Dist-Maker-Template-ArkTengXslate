@@ -58,6 +58,24 @@ our $VERSION = '0.01';
 </body>
 </html>
 
+
+@@ lib/<: $dist.path :>/DB.pm
+
+package <:$dist.module>::DB;
+
+use strict;
+use warnings;
+use utf8;
+
+use parent 'Teng';
+
+__PACKAGE__->load_plugin('Pager::MySQLFoundRows');
+__PACKAGE__->load_plugin('Count');
+__PACKAGE__->load_plugin('FindOrCreate');
+
+1;
+
+
 @@ lib/<: $dist.path :>/Models.pm
 package <: $dist.module :>::Models;
 use strict;
