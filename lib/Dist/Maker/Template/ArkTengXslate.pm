@@ -159,8 +159,59 @@ __PACKAGE__->load_plugin('FindOrCreate');
 @@ lib/<: $dist.path :>/DB/Row/.gitkeep
  
 @@ lib/<: $dist.path :>/DB/ResultSet/.gitkeep
- 
- 
+
+@@ lib/<: $dist.path :>/Exteption.pm
+package <: $dist.module :>::Exception;
+
+use 5.016;
+use warnings;
+use utf8;
+use parent 'Exception::Tiny';
+
+use Class::Accessor::Lite (
+    rw => [qw/ code log log_level/]
+);
+
+use throw {
+    my $class = $_[0];
+
+    if (@_ == 2 && ref $_[1] && $_[1]->isa('<: $dist.path :>::Exception')] {
+       $_[1]->rethrow;
+    }
+
+    goto $class->can('SUPER::throw');
+
+}
+
+sub throwf {
+    my $class  = shift;
+    my $format = shift;
+
+    my $message = sprintf($format, @_);
+    @_ = ($class, $message);
+
+    goto \&throw;
+}
+
+
+sub as_string {
+    my ($self) = @_;
+    state $consts = {reverse %{ <: $dist.path :>::ErrorConst->constants } };
+    my $code = $self->code ? $self->code : $self->message;
+
+    my $message;
+    if (my $e = $consts->{$code}) {
+        $message = $e;
+    }
+    else {
+        $message = $self->message;
+    }
+
+    sprintf '%s at %s line %s.', $message, $self->file, $self->line;
+}
+
+1;
+
 @@ lib/<: $dist.path :>/View/.gitkeep
 
 @@ lib/<: $dist.path :>/View/JSON.pm
