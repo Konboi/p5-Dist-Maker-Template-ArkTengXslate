@@ -268,6 +268,30 @@ sub BUILD {
 
 1;
 
+@@ lib/<: $dist.module :>/View/Xslate/ContextFunctions.pm
+
+package <: $dist.module :>::View::Xslate::ContextFunctions;
+use 5.016;
+use warnings;
+use utf8;
+
+sub context_functions {
+    my ($kls, $sub) = @_;
+
+    return {
+        link_for => sub {
+            my $c = $sub->();
+            return $c->link_for(@_);
+        },
+        asset => sub {
+            my $c = $sub->();
+            return $c->asset_url_with_query(@_);
+        }
+    };
+}
+
+1;
+
 @@ t/.gitkeep
  
 @@ README.md
