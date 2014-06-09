@@ -37,7 +37,7 @@ requires 'JSON::XS';
 package <: $dist.module :>;
 
 use Ark;
-use_model <: $dist.module :>::Models';
+use_model '<: $dist.module :>::Models';
 our $VERSION = '0.01';
 
 1;
