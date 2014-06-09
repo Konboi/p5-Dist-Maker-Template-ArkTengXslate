@@ -158,7 +158,7 @@ __PACKAGE__->meta->make_immutable;
 
 @@ lib/<: $dist.path :>/DB.pm
 
-package <:$dist.module>::DB;
+package <: $dist.module :>::DB;
 
 use strict;
 use warnings;
