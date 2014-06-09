@@ -131,7 +131,7 @@ autoloader qr/^DB::/ => sub {
 
 @@ lib/<: $dist.path :>/Controller.pm
 
-package <: $dist.module :>/Controller;
+package <: $dist.module :>::Controller;
 use Ark 'Controller';
 
 sub error_404 :path :Args {
