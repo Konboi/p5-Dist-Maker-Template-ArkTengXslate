@@ -51,7 +51,9 @@ requires 'Teng';
 </html>
 
 @@ dev.psgi
-
+use 5.016;
+use warnings;
+use utf8;
 use Plack::Builder;
 use Plack::Middleware::Static;
 use lib 'lib';
