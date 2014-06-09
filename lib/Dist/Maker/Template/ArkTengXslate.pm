@@ -70,6 +70,15 @@ builder {
 };
 
 
+@@ lib/<: $dist.path :>.pm
+package <: $dist.module :>;
+
+use Ark;
+use_model '<: $dist.module :>::Models';
+our $VERSION = '0.01';
+
+1;
+
 @@ lib/<: $dist.path :>/Models.pm
 package <: $dist.module :>::Models;
 use strict;
