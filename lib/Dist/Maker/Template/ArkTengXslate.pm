@@ -41,11 +41,11 @@ requires 'Teng';
 
 <head>
 <meta charset="utf-8">
-<title>Hello Ark</title>
+<title><: $title :></title>
 </head>
 
 <body>
-<h1><: $title :></h1>
+<h1>Hello Ark</h1>
 
 </body>
 </html>
