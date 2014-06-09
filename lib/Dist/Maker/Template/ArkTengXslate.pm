@@ -30,17 +30,9 @@ sub distribution {
 
 @@cpanfile
 requires 'Ark', '1.20';
-requires 'Teng';
 requires 'JSON::XS';
-
-@@ lib/<: $dist.path :>.pm
-package <: $dist.module :>;
-
-use Ark;
-use_model '<: $dist.module :>::Models';
-our $VERSION = '0.01';
-
-1;
+requires 'String::CamelCase';
+requires 'Teng';
 
 @@ root/content/index.tx
 
